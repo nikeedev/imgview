@@ -3,6 +3,7 @@ module main
 import gg
 import gx
 import os
+import term
 
 
 struct App {
@@ -18,14 +19,18 @@ const (
 )
 
 fn main() {
-	println(os.args.len)
-	
-	if os.args.len < 1  {
-		println("Usage: imgview <filename>.png/.jpg/.jpeg")
+
+	if os.args.len < 2 {
+		println(term.cyan("Usage: imgview <filename>.png/.jpg/.jpeg\n"))
 		return
 	}
 	else {
-		mut file_name := os.args[os.args.len]
+		mut file_name := os.args[1]
+
+		if !os.exists(file_name) {
+			println(term.red("Image ${file_name} doens't exist!\n"))
+			return
+		}
 
 		mut app := &App{
 			ctx: 0,
